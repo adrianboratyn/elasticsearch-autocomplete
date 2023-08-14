@@ -32,7 +32,6 @@ module.exports = {
     "eqeqeq": ["error"],
     "prefer-template": "error",
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
-    "camelcase": ["error", { "allow": ["en_", "pl_", "hu_"] }],
     "no-underscore-dangle": "error",
     "one-var": ["error", "never"],
     "no-unused-expressions": "off",
