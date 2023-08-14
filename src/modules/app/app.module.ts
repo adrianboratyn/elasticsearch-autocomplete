@@ -5,6 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default'
 import { join } from 'node:path'
 import { envValidation, getConfig } from 'lib/config'
+import { ElasticsearchModule } from 'modules/elasticsearch'
 import { AppService } from './app.service'
 import { AppResolver } from './app.resolver'
 
@@ -35,6 +36,7 @@ import { AppResolver } from './app.resolver'
         ]
       })
     }),
+    ElasticsearchModule
   ],
   providers: [AppService, AppResolver]
 })

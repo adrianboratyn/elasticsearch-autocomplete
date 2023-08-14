@@ -1,3 +1,4 @@
+import { plainToInstance } from 'class-transformer'
 import { EnvironmentVariables } from './environment.variables'
 import { bodyParserConfig } from './body-parser.config'
 import { expressConfig } from './express.config'
@@ -5,10 +6,12 @@ import { validationPipeConfig } from './validation-pipe.config'
 import { corsConfig } from './cors.config'
 import { healthCheckConfig } from './health-check.config'
 import { graphQLConfig } from './graphql.config'
+import { elasticsearchConfig } from './elasticsearch.config'
 
 export const getConfig = () => {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    const configEnvs = process.env as unknown as EnvironmentVariables
+    const configEnvs = plainToInstance(EnvironmentVariables, process.env, {
+        enableImplicitConversion: true
+    })
 
     return {
         bodyParserConfig: bodyParserConfig(configEnvs),
@@ -16,6 +19,7 @@ export const getConfig = () => {
         validationPipeConfig: validationPipeConfig(),
         corsConfig: corsConfig(configEnvs),
         healthCheckConfig: healthCheckConfig(configEnvs),
-        graphQLConfig: graphQLConfig(configEnvs)
+        graphQLConfig: graphQLConfig(configEnvs),
+        elasticsearchConfig: elasticsearchConfig(configEnvs)
     }
 }

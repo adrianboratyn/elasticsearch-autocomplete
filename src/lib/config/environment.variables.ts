@@ -25,4 +25,16 @@ export class EnvironmentVariables {
     @IsOptional()
     @IsString()
     readonly SERVICE_VERSION: string = 'unknown'
+
+    @IsString()
+    readonly ELASTICSEARCH_USER: string
+
+    @IsString()
+    readonly ELASTICSEARCH_PASSWORD: string
+
+    @IsString()
+    readonly ELASTICSEARCH_NODE: string
+
+    @IsString()
+    readonly ELASTICSEARCH_INDEX: string
 }
