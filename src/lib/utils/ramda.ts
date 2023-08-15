@@ -2,7 +2,8 @@ import {
     values,
     toPairs,
     fromPairs,
-    isNil
+    isNil,
+    last
 } from 'ramda'
 import { KeyValuePair } from '../types'
 
@@ -21,5 +22,6 @@ export {
     values,
     hasKeys,
     clearObject,
-    hasElements
+    hasElements,
+    last
 }
