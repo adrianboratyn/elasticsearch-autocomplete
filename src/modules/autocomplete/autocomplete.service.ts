@@ -15,16 +15,19 @@ export class AutocompleteService {
     ) {}
 
     getMatchPhrasePrefixSearch(input: SalesDataInput) {
+        const { address, offset, limit } = input
+
         const searchRequestBody: ElasticsearchRequest = {
             index: this.esIndex,
-            size: 10, // todo: add pagination
+            from: offset * limit,
+            size: limit,
             body: {
                 query: {
                     bool: {
                         must: {
                             match_phrase_prefix: {
                                 address: {
-                                    query: input.address
+                                    query: address
                                 }
                             }
                         }
@@ -37,7 +40,7 @@ export class AutocompleteService {
             .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
             .then(result => result.body.hits.hits.map(({ _source }) => _source))
             .catch(error => {
-                this.logger.error(`Error in TransactionsService.getTransactions: ${error.message}`)
+                this.logger.error(`Error in AutocompleteService.getMatchPhrasePrefixSearch(): ${error.message}`)
 
                 if (error instanceof NotFoundException) {
                     throw error
@@ -48,16 +51,19 @@ export class AutocompleteService {
     }
 
     getMatchBoolPrefixSearch(input: SalesDataInput) {
+        const { address, offset, limit } = input
+
         const searchRequestBody: ElasticsearchRequest = {
             index: this.esIndex,
-            size: 10, // todo: add pagination
+            from: offset * limit,
+            size: limit,
             body: {
                 query: {
                     bool: {
                         must: {
                             match_bool_prefix: {
                                 address: {
-                                    query: input.address
+                                    query: address
                                 }
                             }
                         }
@@ -70,7 +76,7 @@ export class AutocompleteService {
             .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
             .then(result => result.body.hits.hits.map(({ _source }) => _source))
             .catch(error => {
-                this.logger.error(`Error in TransactionsService.getTransactions: ${error.message}`)
+                this.logger.error(`Error in AutocompleteService.getMatchBoolPrefixSearch(): ${error.message}`)
 
                 if (error instanceof NotFoundException) {
                     throw error

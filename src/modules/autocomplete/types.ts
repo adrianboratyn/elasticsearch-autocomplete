@@ -22,6 +22,7 @@ export type SalesDataSchema = {
 export type ElasticsearchRequest = {
     index: string
     size: number
+    from?: number
     body: SearchBody
 }
 
