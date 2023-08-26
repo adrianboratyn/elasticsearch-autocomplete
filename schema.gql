@@ -2,6 +2,29 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type SalesDataResponse {
+  neighborhood: String!
+  buildingClassCategory: String!
+  block: Float!
+  lot: Float!
+  buildingClassAtPresent: String!
+  address: String!
+  apartmentNumber: String!
+  zipCode: Float!
+  residentialUnits: Float!
+  commercialUnits: Float!
+  totalUnits: Float!
+  landSquareFeet: String!
+  grossSquareFeet: String!
+  yearBuilt: Float!
+  salePrice: String!
+  saleDate: String!
+}
+
 type Query {
-  initQuery: String!
+  matchPhrasePrefix(SalesDataInput: SalesDataInput!): [SalesDataResponse!]!
+}
+
+input SalesDataInput {
+  address: String!
 }

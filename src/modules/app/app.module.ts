@@ -9,7 +9,6 @@ import { ElasticsearchModule } from 'modules/elasticsearch'
 import { HealthCheckModule } from 'modules/health-check'
 import { AutocompleteModule } from 'modules/autocomplete'
 import { AppService } from './app.service'
-import { AppResolver } from './app.resolver'
 
 @Module({
   imports: [
@@ -42,6 +41,6 @@ import { AppResolver } from './app.resolver'
     HealthCheckModule,
     AutocompleteModule
   ],
-  providers: [AppService, AppResolver]
+  providers: [AppService]
 })
 export class AppModule {}
