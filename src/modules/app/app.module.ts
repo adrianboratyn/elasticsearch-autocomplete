@@ -7,6 +7,7 @@ import { join } from 'node:path'
 import { envValidation, getConfig } from 'lib/config'
 import { ElasticsearchModule } from 'modules/elasticsearch'
 import { HealthCheckModule } from 'modules/health-check'
+import { AutocompleteModule } from 'modules/autocomplete'
 import { AppService } from './app.service'
 import { AppResolver } from './app.resolver'
 
@@ -38,7 +39,8 @@ import { AppResolver } from './app.resolver'
       })
     }),
     ElasticsearchModule,
-    HealthCheckModule
+    HealthCheckModule,
+    AutocompleteModule
   ],
   providers: [AppService, AppResolver]
 })
