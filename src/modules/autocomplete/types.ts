@@ -22,6 +22,7 @@ export type SalesDataSchema = {
 export type ElasticsearchRequest = {
     index: string
     size: number
+    explain?: boolean
     from?: number
     body: SearchBody
 }
@@ -43,6 +44,7 @@ export type ElasticsearchRecord<T> = {
     _id: string
     _score: number
     _source: T
+    _explanation: Record<string, any>
     sort?: Array<string | number>
 }
 

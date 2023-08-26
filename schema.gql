@@ -2,7 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type SalesDataResponse {
+type SalesDataRecord {
   neighborhood: String!
   buildingClassCategory: String!
   block: Float!
@@ -19,6 +19,16 @@ type SalesDataResponse {
   yearBuilt: Float!
   salePrice: String!
   saleDate: String!
+}
+
+type SalesDataRecordInfo {
+  score: Float!
+  explanation: String
+}
+
+type SalesDataResponse {
+  record: SalesDataRecord!
+  info: SalesDataRecordInfo!
 }
 
 type Query {

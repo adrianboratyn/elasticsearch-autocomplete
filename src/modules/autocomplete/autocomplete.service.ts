@@ -21,6 +21,7 @@ export class AutocompleteService {
             index: this.esIndex,
             from: offset * limit,
             size: limit,
+            explain: true,
             body: {
                 query: {
                     bool: {
@@ -38,7 +39,13 @@ export class AutocompleteService {
 
         return this.elasticsearchService
             .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
-            .then(result => result.body.hits.hits.map(({ _source }) => _source))
+            .then(result => result.body.hits.hits.map(({ _source, _score, _explanation }) => ({
+                record: _source,
+                info: {
+                    score: _score,
+                    explanation: JSON.stringify(_explanation.description)
+                }
+            })))           
             .catch(error => {
                 this.logger.error(`Error in AutocompleteService.getMatchPhrasePrefixSearch(): ${error.message}`)
 
@@ -57,6 +64,7 @@ export class AutocompleteService {
             index: this.esIndex,
             from: offset * limit,
             size: limit,
+            explain: true,
             body: {
                 query: {
                     bool: {
@@ -74,7 +82,13 @@ export class AutocompleteService {
 
         return this.elasticsearchService
             .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
-            .then(result => result.body.hits.hits.map(({ _source }) => _source))
+            .then(result => result.body.hits.hits.map(({ _source, _score, _explanation }) => ({ 
+                record: _source, 
+                info: {
+                    score: _score,
+                    explanation: JSON.stringify(_explanation)
+                } 
+            })))
             .catch(error => {
                 this.logger.error(`Error in AutocompleteService.getMatchBoolPrefixSearch(): ${error.message}`)
 
