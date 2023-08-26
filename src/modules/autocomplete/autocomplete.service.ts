@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { ElasticsearchService } from '@nestjs/elasticsearch'
 import { getConfig } from 'lib/config'
 import { SalesDataInput } from './input'
@@ -49,11 +49,7 @@ export class AutocompleteService {
             .catch(error => {
                 this.logger.error(`Error in AutocompleteService.getMatchPhrasePrefixSearch(): ${error.message}`)
 
-                if (error instanceof NotFoundException) {
-                    throw error
-                }
-
-                throw new BadRequestException(error.message)
+                throw error
             })
     }
 
@@ -92,11 +88,7 @@ export class AutocompleteService {
             .catch(error => {
                 this.logger.error(`Error in AutocompleteService.getMatchBoolPrefixSearch(): ${error.message}`)
 
-                if (error instanceof NotFoundException) {
-                    throw error
-                }
-
-                throw new BadRequestException(error.message)
+                throw error
             })
     }
 }
