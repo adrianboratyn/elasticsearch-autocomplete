@@ -11,4 +11,9 @@ export class AutocompleteResolver {
     matchPhrasePrefix(@Args(SalesDataInput.name) input: SalesDataInput) {
         return this.autocompleteService.getMatchPhrasePrefixSearch(input)
     }
+
+    @Query(() => [SalesDataResponse])
+    matchBoolPrefix(@Args(SalesDataInput.name) input: SalesDataInput) {
+        return this.autocompleteService.getMatchBoolPrefixSearch(input)
+    }
 }

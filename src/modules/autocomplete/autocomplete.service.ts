@@ -46,4 +46,37 @@ export class AutocompleteService {
                 throw new BadRequestException(error.message)
             })
     }
+
+    getMatchBoolPrefixSearch(input: SalesDataInput) {
+        const searchRequestBody: ElasticsearchRequest = {
+            index: this.esIndex,
+            size: 10, // todo: add pagination
+            body: {
+                query: {
+                    bool: {
+                        must: {
+                            match_bool_prefix: {
+                                address: {
+                                    query: input.address
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return this.elasticsearchService
+            .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
+            .then(result => result.body.hits.hits.map(({ _source }) => _source))
+            .catch(error => {
+                this.logger.error(`Error in TransactionsService.getTransactions: ${error.message}`)
+
+                if (error instanceof NotFoundException) {
+                    throw error
+                }
+
+                throw new BadRequestException(error.message)
+            })
+    }
 }

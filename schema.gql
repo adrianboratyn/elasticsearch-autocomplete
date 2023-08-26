@@ -23,6 +23,7 @@ type SalesDataResponse {
 
 type Query {
   matchPhrasePrefix(SalesDataInput: SalesDataInput!): [SalesDataResponse!]!
+  matchBoolPrefix(SalesDataInput: SalesDataInput!): [SalesDataResponse!]!
 }
 
 input SalesDataInput {
