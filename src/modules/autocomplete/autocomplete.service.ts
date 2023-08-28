@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { ElasticsearchService } from '@nestjs/elasticsearch'
 import { getConfig } from 'lib/config'
-import { SalesDataInput } from './input'
+import { DisjunctionMaxQueryInput, BaseSearchInput } from './input'
 import { ElasticsearchRequest, SalesDataSchema, ElasticsearchResult } from './types'
 import { AUTOCOMPLETE_SERVICE } from './constants'
 
@@ -14,8 +14,8 @@ export class AutocompleteService {
         private readonly elasticsearchService: ElasticsearchService,
     ) {}
 
-    getMatchPhrasePrefixSearch(input: SalesDataInput) {
-        const { address, offset, limit } = input
+    getMatchPhrasePrefixSearch(input: BaseSearchInput) {
+        const { searchField, searchValue, offset, limit } = input
 
         const searchRequestBody: ElasticsearchRequest = {
             index: this.esIndex,
@@ -27,8 +27,8 @@ export class AutocompleteService {
                     bool: {
                         must: {
                             match_phrase_prefix: {
-                                address: {
-                                    query: address
+                                [searchField]: {
+                                    query: searchValue
                                 }
                             }
                         }
@@ -53,8 +53,8 @@ export class AutocompleteService {
             })
     }
 
-    getMatchBoolPrefixSearch(input: SalesDataInput) {
-        const { address, offset, limit } = input
+    getMatchBoolPrefixSearch(input: BaseSearchInput) {
+        const { searchField, searchValue, offset, limit } = input
 
         const searchRequestBody: ElasticsearchRequest = {
             index: this.esIndex,
@@ -66,8 +66,8 @@ export class AutocompleteService {
                     bool: {
                         must: {
                             match_bool_prefix: {
-                                address: {
-                                    query: address
+                                [searchField]: {
+                                    query: searchValue
                                 }
                             }
                         }
@@ -87,6 +87,58 @@ export class AutocompleteService {
             })))
             .catch(error => {
                 this.logger.error(`Error in AutocompleteService.getMatchBoolPrefixSearch(): ${error.message}`)
+
+                throw error
+            })
+    }
+
+    getDisjunctionMaxQuerySearch(input: DisjunctionMaxQueryInput) {
+        const { addressOrNeighborhood, searchType, offset, limit } = input
+
+        const searchRequestBody: ElasticsearchRequest = {
+            index: this.esIndex,
+            from: offset * limit,
+            size: limit,
+            explain: true,
+            body: {
+                query: {
+                    bool: {
+                        must: {
+                            dis_max: {
+                                queries: [
+                                    {
+                                        [searchType]: {
+                                            address: {
+                                                query: addressOrNeighborhood
+                                            }
+                                        }
+                                    },
+                                    {
+                                        [searchType]: {
+                                            neighborhood: {
+                                                query: addressOrNeighborhood
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return this.elasticsearchService
+            .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
+            .then(result => result.body.hits.hits.map(({ _source, _score, _explanation }) => ({
+                record: _source,
+                info: {
+                    score: _score,
+                    explanation: JSON.stringify(_explanation)
+                }
+            })))
+            .catch(error => {
+                this.logger.error(`Error in AutocompleteService.getDisjunctionMaxQuerySearch(): ${error.message}`)
 
                 throw error
             })

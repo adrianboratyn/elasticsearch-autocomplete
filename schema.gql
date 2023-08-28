@@ -32,12 +32,34 @@ type SalesDataResponse {
 }
 
 type Query {
-  matchPhrasePrefix(SalesDataInput: SalesDataInput!): [SalesDataResponse!]!
-  matchBoolPrefix(SalesDataInput: SalesDataInput!): [SalesDataResponse!]!
+  matchPhrasePrefix(BaseSearchInput: BaseSearchInput!): [SalesDataResponse!]!
+  matchBoolPrefix(BaseSearchInput: BaseSearchInput!): [SalesDataResponse!]!
+  disjunctionMaxQuery(DisjunctionMaxQueryInput: DisjunctionMaxQueryInput!): [SalesDataResponse!]!
 }
 
-input SalesDataInput {
+input BaseSearchInput {
   limit: Int! = 20
   offset: Int! = 0
-  address: String!
+  searchField: SearchField!
+  searchValue: String!
+}
+
+"""Fields with autocomplete search enabled"""
+enum SearchField {
+  NEIGHBORHOOD
+  BUILDING_CLASS_CATEGORY
+  ADDRESS
+}
+
+input DisjunctionMaxQueryInput {
+  limit: Int! = 20
+  offset: Int! = 0
+  addressOrNeighborhood: String!
+  searchType: SearchType!
+}
+
+"""Autocomplete search types"""
+enum SearchType {
+  MATCH_PHRASE_PREFIX
+  MATCH_BOOL_PREFIX
 }
