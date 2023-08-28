@@ -1,11 +1,15 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
-import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Min } from 'class-validator'
+import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Min } from 'class-validator'
+import { SearchType } from '../enums'
 
 @InputType()
-export class SalesDataInput {
+export class DisjunctionMaxQueryInput {
     @IsString()
     @IsNotEmpty()
-    readonly address: string
+    readonly addressOrNeighborhood: string
+
+    @IsEnum(SearchType)
+    readonly searchType: SearchType
 
     @IsOptional()
     @IsInt()
