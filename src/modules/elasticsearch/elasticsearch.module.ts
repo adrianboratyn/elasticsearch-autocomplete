@@ -14,10 +14,7 @@ import { getConfig } from 'lib/config'
                         username,
                         password
                     },
-                    node,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    node
                 }
             }
         })
