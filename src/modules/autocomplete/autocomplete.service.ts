@@ -39,11 +39,11 @@ export class AutocompleteService {
 
         return this.elasticsearchService
             .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
-            .then(result => result.body.hits.hits.map(({ _source, _score, _explanation }) => ({
+            .then(result => result.hits.hits.map(({ _source, _score, _explanation }) => ({
                 record: _source,
                 info: {
                     score: _score,
-                    explanation: JSON.stringify(_explanation.description)
+                    explanation: JSON.stringify(_explanation?.description)
                 }
             })))           
             .catch(error => {
@@ -78,7 +78,7 @@ export class AutocompleteService {
 
         return this.elasticsearchService
             .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
-            .then(result => result.body.hits.hits.map(({ _source, _score, _explanation }) => ({ 
+            .then(result => result.hits.hits.map(({ _source, _score, _explanation }) => ({ 
                 record: _source, 
                 info: {
                     score: _score,
@@ -130,7 +130,7 @@ export class AutocompleteService {
 
         return this.elasticsearchService
             .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
-            .then(result => result.body.hits.hits.map(({ _source, _score, _explanation }) => ({
+            .then(result => result.hits.hits.map(({ _source, _score, _explanation }) => ({
                 record: _source,
                 info: {
                     score: _score,

@@ -1,4 +1,4 @@
-import { estypes } from '@elastic/elasticsearch'
+import { AggregationsAggregate, QueryDslQueryContainer } from '@elastic/elasticsearch/lib/api/types'
 
 export type SalesDataSchema = {
     neighborhood: string
@@ -33,10 +33,10 @@ type SearchBody = {
 }
 
 type AggregationBody = {
-    [aggregationName: string]: estypes.AggregationContainer
+    [aggregationName: string]: AggregationsAggregate | undefined
 }
 
-export type QueryBody = estypes.QueryContainer
+export type QueryBody = QueryDslQueryContainer
 
 export type ElasticsearchRecord<T> = {
     _index: string

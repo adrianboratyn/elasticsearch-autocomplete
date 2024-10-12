@@ -7,7 +7,7 @@ const client = new Client({
 })
 
 const esSeed = async (index: string) => {
-    const { body: indexExists } = await client.indices.exists({ index })
+    const indexExists = await client.indices.exists({ index })
 
     if (indexExists) {
         console.warn(`Seed for ${index} index already exists in Elasticsearch.`)
@@ -23,7 +23,7 @@ const esSeed = async (index: string) => {
 
     // index will be created automatically
     const records = data.flatMap(record => [{ index: { _index: index } }, record])
-    const { body: bulkResponse } = await client.bulk({ body: records })
+    const bulkResponse = await client.bulk({ body: records })
 
     return bulkResponse.errors
         ? console.error(`Failed to seed data to Elasticsearch ${index} index, due to:`, bulkResponse.errors)
