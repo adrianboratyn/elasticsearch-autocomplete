@@ -10,7 +10,7 @@ import { elasticsearchConfig } from './elasticsearch.config'
 
 export const getConfig = () => {
     const configEnvs = plainToInstance(EnvironmentVariables, process.env, {
-        enableImplicitConversion: true
+        enableImplicitConversion: true,
     })
 
     return {
@@ -20,6 +20,6 @@ export const getConfig = () => {
         corsConfig: corsConfig(configEnvs),
         healthCheckConfig: healthCheckConfig(configEnvs),
         graphQLConfig: graphQLConfig(configEnvs),
-        elasticsearchConfig: elasticsearchConfig(configEnvs)
+        elasticsearchConfig: elasticsearchConfig(configEnvs),
     }
 }

@@ -1,8 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const toBoolean = (value?: any) => {
+export const toBoolean = <T>(value?: T) => {
     if (typeof value === 'boolean') {
         return value
     }
 
-    return Boolean(value && (value === 'true' || value === '1'))
+    if (value === 'true' || value === '1') {
+        return true
+    }
+
+    return false
 }

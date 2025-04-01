@@ -3,7 +3,7 @@ import { ELASTICSEARCH_NODE, ELASTICSEARCH_INDEX } from './constants'
 import { ElasticsearchSeed } from './types'
 
 const client = new Client({
-    node: ELASTICSEARCH_NODE
+    node: ELASTICSEARCH_NODE,
 })
 
 const esSeed = async (index: string) => {

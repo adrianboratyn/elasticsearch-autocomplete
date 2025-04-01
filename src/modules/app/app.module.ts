@@ -17,8 +17,8 @@ import { AppService } from './app.service'
       validate: envValidation,
       validationOptions: {
         allowUnknown: true,
-        abortEarly: true
-      }
+        abortEarly: true,
+      },
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -26,21 +26,21 @@ import { AppService } from './app.service'
         debug: false,
         cache: 'bounded',
         autoSchemaFile: join(process.cwd(), 'schema.gql'),
-        // @ts-ignore
+        // @ts-expect-error - any type is expected here
         context: ({ req, res }) => ({ req, res }),
         playground: false,
         introspection: getConfig().graphQLConfig.introspection,
         plugins: [
           getConfig().graphQLConfig.usePlayground
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
-            : ApolloServerPluginLandingPageProductionDefault({ footer: false })
-        ]
-      })
+            : ApolloServerPluginLandingPageProductionDefault({ footer: false }),
+        ],
+      }),
     }),
     ElasticsearchModule,
     HealthCheckModule,
-    AutocompleteModule
+    AutocompleteModule,
   ],
-  providers: [AppService]
+  providers: [AppService],
 })
 export class AppModule {}

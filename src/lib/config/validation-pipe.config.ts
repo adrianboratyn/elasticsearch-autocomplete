@@ -5,13 +5,13 @@ export const validationPipeConfig = (): ValidationPipeOptions => ({
     whitelist: true,
     transform: true,
     transformOptions: {
-        enableImplicitConversion: true
+        enableImplicitConversion: true,
     },
     dismissDefaultMessages: true,
     exceptionFactory: (errors: Array<ValidationError>) => {
         const customErrors = errors.map(error => ({
             ...error,
-            constraints: error.constraints ? R.clearObject(error.constraints) : {}
+            constraints: error.constraints ? R.clearObject(error.constraints) : {},
         }))
         const hasCustomErrors = customErrors.filter(error => R.hasKeys(error.constraints)).length > 0
 
@@ -22,13 +22,13 @@ export const validationPipeConfig = (): ValidationPipeOptions => ({
                     error: 'Bad Request',
                     validation: customErrors.map(error => ({
                         field: error.property,
-                        errors: R.values(error.constraints)
-                    }))
+                        errors: R.values(error.constraints),
+                    })),
                 },
-                HttpStatus.BAD_REQUEST
+                HttpStatus.BAD_REQUEST,
             )
         }
 
         return new BadRequestException()
-    }
+    },
 })

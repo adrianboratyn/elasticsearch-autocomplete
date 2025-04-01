@@ -12,13 +12,13 @@ import { getConfig } from 'lib/config'
                 return {
                     auth: {
                         username,
-                        password
+                        password,
                     },
-                    node
+                    node,
                 }
-            }
-        })
+            },
+        }),
     ],
-    exports: [ElasticsearchCommonModule]
+    exports: [ElasticsearchCommonModule],
 })
 export class ElasticsearchModule { }

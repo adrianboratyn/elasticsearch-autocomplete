@@ -44,6 +44,7 @@ export type ElasticsearchRecord<T> = {
     _id: string
     _score: number
     _source: T
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     _explanation: Record<string, any>
     sort?: Array<string | number>
 }
@@ -57,7 +58,7 @@ export type ElasticsearchHits<T> = {
     hits: Array<ElasticsearchRecord<T>>
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 export type ElasticsearchResult<T> = {
     hits: ElasticsearchHits<T>
 }
