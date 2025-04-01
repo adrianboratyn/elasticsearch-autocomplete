@@ -2,6 +2,7 @@ import { Controller, Get } from '@nestjs/common'
 import { HealthCheck, HealthCheckResult, HealthCheckService } from '@nestjs/terminus'
 import { format } from 'date-fns'
 import { getConfig } from 'lib/config'
+import { R } from 'lib/utils'
 import { HEALTH_CHECK } from './constants'
 import { ElasticsearchHealthIndicator } from './elasticsearch.health-indicator'
 import { formatHealthCheckTimestamp } from './utils'
@@ -11,10 +12,13 @@ export class HealthCheckController {
     private readonly build: string = getConfig().healthCheckConfig.build
     private readonly date: string
 
-    constructor(private health: HealthCheckService, private elasticsearchHealthIndicator: ElasticsearchHealthIndicator) {
+    constructor(
+        private health: HealthCheckService,
+        private elasticsearchHealthIndicator: ElasticsearchHealthIndicator,
+    ) {
         const timestamp = formatHealthCheckTimestamp(this.build)
 
-        this.date = timestamp ? format(new Date(timestamp), 'yyyy-MM-dd HH:mm:ss') : 'unknown'
+        this.date = R.isNil(timestamp) || isNaN(timestamp) ? 'unknown' : format(new Date(timestamp), 'yyyy-MM-dd HH:mm:ss')
     }
 
     @Get()
@@ -25,10 +29,10 @@ export class HealthCheckController {
                 app: {
                     status: 'up',
                     build: this.build,
-                    date: this.date
-                }
+                    date: this.date,
+                },
             }),
-            () => this.elasticsearchHealthIndicator.isHealthy('Elasticsearch cluster')
+            () => this.elasticsearchHealthIndicator.isHealthy('Elasticsearch cluster'),
         ])
     }
 }

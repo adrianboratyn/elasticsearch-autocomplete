@@ -11,36 +11,36 @@ import { AutocompleteModule } from 'modules/autocomplete'
 import { AppService } from './app.service'
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      validate: envValidation,
-      validationOptions: {
-        allowUnknown: true,
-        abortEarly: true
-      }
-    }),
-    GraphQLModule.forRootAsync<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      useFactory: () => ({
-        debug: false,
-        cache: 'bounded',
-        autoSchemaFile: join(process.cwd(), 'schema.gql'),
-        // @ts-ignore
-        context: ({ req, res }) => ({ req, res }),
-        playground: false,
-        introspection: getConfig().graphQLConfig.introspection,
-        plugins: [
-          getConfig().graphQLConfig.usePlayground
-            ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
-            : ApolloServerPluginLandingPageProductionDefault({ footer: false })
-        ]
-      })
-    }),
-    ElasticsearchModule,
-    HealthCheckModule,
-    AutocompleteModule
-  ],
-  providers: [AppService]
+    imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+            validate: envValidation,
+            validationOptions: {
+                allowUnknown: true,
+                abortEarly: true,
+            },
+        }),
+        GraphQLModule.forRootAsync<ApolloDriverConfig>({
+            driver: ApolloDriver,
+            useFactory: () => ({
+                debug: false,
+                cache: 'bounded',
+                autoSchemaFile: join(process.cwd(), 'schema.gql'),
+                // @ts-expect-error - any type is expected here
+                context: ({ req, res }) => ({ req, res }),
+                playground: false,
+                introspection: getConfig().graphQLConfig.introspection,
+                plugins: [
+                    getConfig().graphQLConfig.usePlayground
+                        ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
+                        : ApolloServerPluginLandingPageProductionDefault({ footer: false }),
+                ],
+            }),
+        }),
+        ElasticsearchModule,
+        HealthCheckModule,
+        AutocompleteModule,
+    ],
+    providers: [AppService],
 })
 export class AppModule {}

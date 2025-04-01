@@ -10,9 +10,7 @@ export class AutocompleteService {
     private readonly logger = new Logger(AUTOCOMPLETE_SERVICE)
     private readonly esIndex = getConfig().elasticsearchConfig.index
 
-    constructor(
-        private readonly elasticsearchService: ElasticsearchService,
-    ) {}
+    constructor(private readonly elasticsearchService: ElasticsearchService) {}
 
     getMatchPhrasePrefixSearch(input: BaseSearchInput) {
         const { searchField, searchValue, offset, limit } = input
@@ -28,24 +26,26 @@ export class AutocompleteService {
                         must: {
                             match_phrase_prefix: {
                                 [searchField]: {
-                                    query: searchValue
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+                                    query: searchValue,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
         }
 
         return this.elasticsearchService
             .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
-            .then(result => result.hits.hits.map(({ _source, _score, _explanation }) => ({
-                record: _source,
-                info: {
-                    score: _score,
-                    explanation: JSON.stringify(_explanation?.description)
-                }
-            })))           
+            .then(result =>
+                result.hits.hits.map(({ _source, _score, _explanation }) => ({
+                    record: _source,
+                    info: {
+                        score: _score,
+                        explanation: JSON.stringify(_explanation?.description),
+                    },
+                })),
+            )
             .catch(error => {
                 this.logger.error(`Error in AutocompleteService.getMatchPhrasePrefixSearch(): ${error.message}`)
 
@@ -67,24 +67,26 @@ export class AutocompleteService {
                         must: {
                             match_bool_prefix: {
                                 [searchField]: {
-                                    query: searchValue
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+                                    query: searchValue,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
         }
 
         return this.elasticsearchService
             .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
-            .then(result => result.hits.hits.map(({ _source, _score, _explanation }) => ({ 
-                record: _source, 
-                info: {
-                    score: _score,
-                    explanation: JSON.stringify(_explanation)
-                } 
-            })))
+            .then(result =>
+                result.hits.hits.map(({ _source, _score, _explanation }) => ({
+                    record: _source,
+                    info: {
+                        score: _score,
+                        explanation: JSON.stringify(_explanation),
+                    },
+                })),
+            )
             .catch(error => {
                 this.logger.error(`Error in AutocompleteService.getMatchBoolPrefixSearch(): ${error.message}`)
 
@@ -109,34 +111,36 @@ export class AutocompleteService {
                                     {
                                         [searchType]: {
                                             address: {
-                                                query: addressOrNeighborhood
-                                            }
-                                        }
+                                                query: addressOrNeighborhood,
+                                            },
+                                        },
                                     },
                                     {
                                         [searchType]: {
                                             neighborhood: {
-                                                query: addressOrNeighborhood
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            }
+                                                query: addressOrNeighborhood,
+                                            },
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    },
+                },
+            },
         }
 
         return this.elasticsearchService
             .search<ElasticsearchResult<SalesDataSchema>>(searchRequestBody)
-            .then(result => result.hits.hits.map(({ _source, _score, _explanation }) => ({
-                record: _source,
-                info: {
-                    score: _score,
-                    explanation: JSON.stringify(_explanation)
-                }
-            })))
+            .then(result =>
+                result.hits.hits.map(({ _source, _score, _explanation }) => ({
+                    record: _source,
+                    info: {
+                        score: _score,
+                        explanation: JSON.stringify(_explanation),
+                    },
+                })),
+            )
             .catch(error => {
                 this.logger.error(`Error in AutocompleteService.getDisjunctionMaxQuerySearch(): ${error.message}`)
 

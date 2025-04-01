@@ -6,6 +6,6 @@ import { ElasticsearchHealthIndicator } from './elasticsearch.health-indicator'
 @Module({
     imports: [TerminusModule],
     controllers: [HealthCheckController],
-    providers: [ElasticsearchHealthIndicator]
+    providers: [ElasticsearchHealthIndicator],
 })
 export class HealthCheckModule {}
