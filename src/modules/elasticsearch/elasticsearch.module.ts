@@ -21,4 +21,4 @@ import { getConfig } from 'lib/config'
     ],
     exports: [ElasticsearchCommonModule],
 })
-export class ElasticsearchModule { }
+export class ElasticsearchModule {}

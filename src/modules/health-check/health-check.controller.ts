@@ -12,7 +12,10 @@ export class HealthCheckController {
     private readonly build: string = getConfig().healthCheckConfig.build
     private readonly date: string
 
-    constructor(private health: HealthCheckService, private elasticsearchHealthIndicator: ElasticsearchHealthIndicator) {
+    constructor(
+        private health: HealthCheckService,
+        private elasticsearchHealthIndicator: ElasticsearchHealthIndicator,
+    ) {
         const timestamp = formatHealthCheckTimestamp(this.build)
 
         this.date = R.isNil(timestamp) || isNaN(timestamp) ? 'unknown' : format(new Date(timestamp), 'yyyy-MM-dd HH:mm:ss')

@@ -58,7 +58,6 @@ export type ElasticsearchHits<T> = {
     hits: Array<ElasticsearchRecord<T>>
 }
 
- 
 export type ElasticsearchResult<T> = {
     hits: ElasticsearchHits<T>
 }
