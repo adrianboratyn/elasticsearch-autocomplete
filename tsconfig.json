@@ -1,27 +1,24 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "target": "ESNext",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "src",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "strictPropertyInitialization": false,
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": false,
-    "incremental": true
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+    "compilerOptions": {
+        "module": "commonjs",
+        "declaration": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "ESNext",
+        "sourceMap": true,
+        "outDir": "./dist",
+        "baseUrl": "src",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "strictPropertyInitialization": false,
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": false,
+        "incremental": true
+    },
+    "exclude": ["node_modules", "dist"]
 }
